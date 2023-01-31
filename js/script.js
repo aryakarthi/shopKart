@@ -87,6 +87,7 @@ let div_col = document.createElement("div"),
 // # To add attributes
   div_col.setAttribute("class","col-3 d-flex justify-content-center mb-3");
   div_prodBox.setAttribute("class","product-box");
+  div_prodBox.setAttribute("id","product-"+i);
   div_prodImg.setAttribute("class","product-img");
   div_prodInfo.setAttribute("class","product-info");
   btn_cart.setAttribute("class","cart-btn");

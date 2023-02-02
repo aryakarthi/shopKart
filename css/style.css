@@ -166,6 +166,12 @@ section{
   outline: none;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .qty-group button{
   width: 30px;
   border: none;

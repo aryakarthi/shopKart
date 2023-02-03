@@ -85,6 +85,9 @@ let arrMobiles = [
   }
 ];
 
+document.addEventListener('DOMContentLoaded',loadProducts);
+
+
 arrMobiles.forEach(function(elem,i){
 // # To create element
 let div_col = document.createElement("div"),
@@ -130,29 +133,103 @@ let div_col = document.createElement("div"),
 
 }); 
 
-// let addCartBtn = document.getElementsByClassName("cart-btn");
+let addCartBtn = document.querySelectorAll(".cart-btn");
 
-// for(let i=0;i<addCartBtn.length;i++){
-//   addCartBtn[i].addEventListener('click', addCart);
-// }
-
-// function addCart(){
-//   console.log(this.parentNode);
-//   let prodDtls = this.parentNode;
-//   let getPrice = prodDtls.getElementsByClassName("prod-price")[0];
-//   console.log(getPrice);
-// }
-
-
-let incQty = document.querySelectorAll(".plus");
-
-incQty.forEach((inc)=>{
-  inc.addEventListener('click',incQuantity) ;
+addCartBtn.forEach((btn)=>{
+  btn.addEventListener('click',addCart) ;
 });
+
+function addCart(){
+  let prodMob = this.parentElement;
+  console.log(prodMob);
+  let prod_Name = prodMob.querySelector('.prod-name').innerHTML;
+  let prod_Price = prodMob.querySelector('.prod-price').innerHTML;
+  let prod_Img = prodMob.querySelector('.prod-img').src;
+
+  // console.log(prod_Name,prod_Price,prod_Img);
+
+  let addNewProduct = createCart(prod_Name,prod_Price,prod_Img);
+
+  let cartContainer = document.createElement('div');
+  cartContainer.innerHTML = addNewProduct;
+
+  let cartBox = document.querySelector('.cart-container');
+
+  cartBox.append(cartContainer);
+}
+
+
+function createCart(prod_Name,prod_Price,prod_Img){
+  return `
+  <div class="cart-content">
+
+          <div class="cart-img-box">
+            <img src="${prod_Img}" class="cart-img">
+          </div>
+          <div class="cart-detail-box">
+            <div class="prod-name">${prod_Name}</div>
+            
+            <div class="price-subtotal">
+              <div class="prod-price" id="prod-price-id">${prod_Price}</div>
+              <div class="prod-subtotal" id="prod-subtotal-id">${prod_Price}</div>
+            </div>
+              
+            <div class="qty-group">
+              <button class="minus">-</button>
+              <input type="number" value="1" class="ip-qty">
+              <button class="plus">+</button>
+            </div>
+
+          </div>
+
+          <i class="las la-trash"></i>
+        </div>`
+}
+
+
+// document.addEventListener('DOMContentLoaded',loadProducts);
+
+function loadProducts(){
+  loadContents();
+}
+
+function loadContents(){
+
+  // let addCartBtn = document.querySelectorAll(".cart-btn");
+
+  // addCartBtn.forEach((btn)=>{
+  //   btn.addEventListener('click',addCart) ;
+  // });
+
+  let incQty = document.querySelectorAll(".plus");
+
+  incQty.forEach((inc)=>{
+    inc.addEventListener('click',incQuantity) ;
+  });
+
+  let decQty = document.querySelectorAll(".minus");
+
+  decQty.forEach((dec)=>{
+    dec.addEventListener('click',decQuantity) ;
+  });
+
+  let btnRemove=document.querySelectorAll('.la-trash') ;
+
+  btnRemove.forEach((trash)=>{
+    trash.addEventListener('click',removeItem) ;
+  });
+
+}
+
+
+// let incQty = document.querySelectorAll(".plus");
+
+// incQty.forEach((inc)=>{
+//   inc.addEventListener('click',incQuantity) ;
+// });
 
 function incQuantity(){
   let getprodPrice = this.parentElement.previousElementSibling.querySelector('.prod-price').innerHTML;
-  let getSubtotal = this.parentElement.previousElementSibling.querySelector('.prod-subtotal').innerHTML;
   let priceVal = parseInt(getprodPrice);
   let qtyInc= parseInt(this.previousElementSibling.value);
   let subTotal = 0;
@@ -164,15 +241,14 @@ function incQuantity(){
   }
  }
 
-let decQty = document.querySelectorAll(".minus");
+// let decQty = document.querySelectorAll(".minus");
 
-decQty.forEach((dec)=>{
-  dec.addEventListener('click',decQuantity) ;
-});
+// decQty.forEach((dec)=>{
+//   dec.addEventListener('click',decQuantity) ;
+// });
 
 function decQuantity(){
   let getprodPrice = this.parentElement.previousElementSibling.querySelector('.prod-price').innerHTML;
-  let getSubtotal = this.parentElement.previousElementSibling.querySelector('.prod-subtotal').innerHTML;
   let priceVal = parseInt(getprodPrice);
   let qtyDec= parseInt(this.nextElementSibling.value);
   let subTotal = 0;
@@ -186,11 +262,11 @@ function decQuantity(){
 
 
 
-let btnRemove=document.querySelectorAll('.la-trash') ;
+// let btnRemove=document.querySelectorAll('.la-trash') ;
 
-btnRemove.forEach((trash)=>{
-  trash.addEventListener('click',removeItem) ;
-});
+// btnRemove.forEach((trash)=>{
+//   trash.addEventListener('click',removeItem) ;
+// });
 
 function removeItem(){
   this.parentElement.remove();

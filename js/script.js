@@ -85,10 +85,10 @@ let arrMobiles = [
   }
 ];
 
-document.addEventListener('DOMContentLoaded',loadProducts);
 
 
 arrMobiles.forEach(function(elem,i){
+
 // # To create element
 let div_col = document.createElement("div"),
     div_prodBox = document.createElement("div"),
@@ -131,63 +131,9 @@ let div_col = document.createElement("div"),
 
   // console.log(sec1Row);
 
-}); 
-
-let addCartBtn = document.querySelectorAll(".cart-btn");
-
-addCartBtn.forEach((btn)=>{
-  btn.addEventListener('click',addCart) ;
 });
 
-function addCart(){
-  let prodMob = this.parentElement;
-  console.log(prodMob);
-  let prod_Name = prodMob.querySelector('.prod-name').innerHTML;
-  let prod_Price = prodMob.querySelector('.prod-price').innerHTML;
-  let prod_Img = prodMob.querySelector('.prod-img').src;
-
-  // console.log(prod_Name,prod_Price,prod_Img);
-
-  let addNewProduct = createCart(prod_Name,prod_Price,prod_Img);
-
-  let cartContainer = document.createElement('div');
-  cartContainer.innerHTML = addNewProduct;
-
-  let cartBox = document.querySelector('.cart-container');
-
-  cartBox.append(cartContainer);
-}
-
-
-function createCart(prod_Name,prod_Price,prod_Img){
-  return `
-  <div class="cart-content">
-
-          <div class="cart-img-box">
-            <img src="${prod_Img}" class="cart-img">
-          </div>
-          <div class="cart-detail-box">
-            <div class="prod-name">${prod_Name}</div>
-            
-            <div class="price-subtotal">
-              <div class="prod-price" id="prod-price-id">${prod_Price}</div>
-              <div class="prod-subtotal" id="prod-subtotal-id">${prod_Price}</div>
-            </div>
-              
-            <div class="qty-group">
-              <button class="minus">-</button>
-              <input type="number" value="1" class="ip-qty">
-              <button class="plus">+</button>
-            </div>
-
-          </div>
-
-          <i class="las la-trash"></i>
-        </div>`
-}
-
-
-// document.addEventListener('DOMContentLoaded',loadProducts);
+document.addEventListener('DOMContentLoaded',loadProducts);
 
 function loadProducts(){
   loadContents();
@@ -195,11 +141,11 @@ function loadProducts(){
 
 function loadContents(){
 
-  // let addCartBtn = document.querySelectorAll(".cart-btn");
+  let addCartBtn = document.querySelectorAll(".cart-btn");
 
-  // addCartBtn.forEach((btn)=>{
-  //   btn.addEventListener('click',addCart) ;
-  // });
+  addCartBtn.forEach((btn)=>{
+    btn.addEventListener('click',addCart) ;
+  });
 
   let incQty = document.querySelectorAll(".plus");
 
@@ -219,16 +165,77 @@ function loadContents(){
     trash.addEventListener('click',removeItem) ;
   });
 
+  updateTotal();
+
+}
+
+let productList=[];
+
+
+function addCart(){
+  let prodMob = this.parentElement;
+  let prod_Name = prodMob.querySelector('.prod-name').innerHTML;
+  let prod_Price = prodMob.querySelector('.prod-price').innerHTML;
+  let prod_Img = prodMob.querySelector('.prod-img').src;
+
+  // console.log(prod_Name,prod_Price,prod_Img);
+
+  let addedProduct = {prod_Name,prod_Price,prod_Img};
+
+  if(productList.find((elem)=>elem.prod_Name==addedProduct.prod_Name)){
+    alert("Product Already Exist.!");
+    return;
+  }
+  else{
+    productList.push(addedProduct);
+  }
+
+
+
+
+  let addNewProduct = createCart(prod_Name,prod_Price,prod_Img);
+
+  let cartContainer = document.createElement('div');
+  cartContainer.innerHTML = addNewProduct;
+
+  let cartBox = document.querySelector('.cart-container');
+
+  cartBox.append(cartContainer);
+
+  loadContents();
 }
 
 
-// let incQty = document.querySelectorAll(".plus");
+function createCart(prod_Name,prod_Price,prod_Img){
+  return `
+  <div class="cart-content">
 
-// incQty.forEach((inc)=>{
-//   inc.addEventListener('click',incQuantity) ;
-// });
+    <div class="cart-img-box">
+      <img src="${prod_Img}" class="cart-img">
+    </div>
+    <div class="cart-detail-box">
+      <div class="prod-name">${prod_Name}</div>
+      
+      <div class="price-subtotal">
+        <div class="prod-price" id="prod-price-id">${prod_Price}</div>
+        <div class="prod-subtotal" id="prod-subtotal-id">${prod_Price}</div>
+      </div>
+        
+      <div class="qty-group">
+        <button class="minus">-</button>
+        <input type="number" value="1" class="ip-qty">
+        <button class="plus">+</button>
+      </div>
+
+    </div>
+
+    <i class="las la-trash"></i>
+  </div>`
+}
+
 
 function incQuantity(){
+  
   let getprodPrice = this.parentElement.previousElementSibling.querySelector('.prod-price').innerHTML;
   let priceVal = parseInt(getprodPrice);
   let qtyInc= parseInt(this.previousElementSibling.value);
@@ -238,14 +245,10 @@ function incQuantity(){
     subTotal += priceVal*qtyInc;
     this.previousElementSibling.value=qtyInc;
     this.parentElement.previousElementSibling.querySelector('.prod-subtotal').innerHTML=subTotal;
+    updateTotal();
   }
  }
 
-// let decQty = document.querySelectorAll(".minus");
-
-// decQty.forEach((dec)=>{
-//   dec.addEventListener('click',decQuantity) ;
-// });
 
 function decQuantity(){
   let getprodPrice = this.parentElement.previousElementSibling.querySelector('.prod-price').innerHTML;
@@ -257,31 +260,39 @@ function decQuantity(){
     subTotal += priceVal*qtyDec;
     this.nextElementSibling.value=qtyDec;
     this.parentElement.previousElementSibling.querySelector('.prod-subtotal').innerHTML=subTotal;
+    updateTotal();
   }
 }
 
 
-
-// let btnRemove=document.querySelectorAll('.la-trash') ;
-
-// btnRemove.forEach((trash)=>{
-//   trash.addEventListener('click',removeItem) ;
-// });
-
 function removeItem(){
-  this.parentElement.remove();
+  if(confirm("Are You Sure to Remove This.?")){
+    let rmProdName = this.parentElement.querySelector('.prod-name').innerHTML;
+
+    // console.log(rmProdName);
+
+    productList=productList.filter(elem=>elem.prod_Name!=rmProdName);
+    this.parentElement.remove();
+
+    loadContents();
+  }
 }
 
+function updateTotal()
+{
+  let addedItems=document.querySelectorAll('.cart-content');
+  let grandTotal=document.querySelector('.total-price');
 
-// let incQty = document.getElementsByClassName("plus");
+  let grand_total=0;
 
-// for(let i=0;i<incQty.length;i++){
-//   incQty[i].addEventListener('click', incQuantity);
-// }
+  addedItems.forEach(prod=>{
 
+    let price=parseFloat(prod.querySelector('.prod-price').innerHTML);
+    let qty= parseInt(prod.querySelector('.ip-qty').value);
+    grand_total+=(price*qty);
 
-// let decQty = document.getElementsByClassName("minus");
+  });
 
-// for(let j=0;j<incQty.length;j++){
-//   incQty[j].addEventListener('click', addCart);
-// }
+  grandTotal.innerHTML=grand_total;
+
+}

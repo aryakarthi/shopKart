@@ -25,7 +25,7 @@ let arrMobiles = [
   },
   {
     prodID:103,
-    prodName: "Redmi_Note 11",
+    prodName: "Redmi Note 11",
     prodPrice: 14999,
     prodImg: "./img/redmi_note11_blue.webp"
   },
@@ -295,4 +295,18 @@ function updateTotal()
 
   grandTotal.innerHTML=grand_total;
 
+  let notiCount=document.querySelector('.noti-count');
+  let prodCount=productList.length;
+
+  notiCount.innerHTML=prodCount;
+
+  if(prodCount==0){
+    notiCount.style.display='none';
+  }
+  else{
+    notiCount.style.display='inline-block';
+  }
+
 }
+
+

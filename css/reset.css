@@ -3,3 +3,7 @@
   margin: 0;
   box-sizing: border-box;
 }
+
+.prod-name, .prod-price{
+  margin-bottom: 0;
+}

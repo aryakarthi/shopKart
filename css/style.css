@@ -3,21 +3,23 @@
 body{
   font-family: 'Poppins', sans-serif;
   scroll-behavior:smooth;
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 header{
   height: 60px;
   width: 100vw;
   position: fixed;
+  z-index: 100;
 }
 
 .navbar{
 	display:flex;
-	justify-content: space-between;
+	justify-content: space-around;
   align-items: center;
   height: 100%;
   width: 100%;
-  background-color: whitesmoke;
+  background-color: #30475E;
   z-index: 100;
 }
 
@@ -29,7 +31,7 @@ header{
 
 .nav-logo h2 a{
   text-decoration: none;
-  color: crimson;
+  color: #F05454;
 }
 
 .logo-img{
@@ -45,8 +47,13 @@ header{
 .nav-mid a{
 	text-decoration:none;
 	font-weight: 500;
-	color:black;
+	color:white;
 	font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.nav-mid a:hover{
+  color: #F05454;
 }
 
 .nav-right{
@@ -62,6 +69,25 @@ header{
 	font-size:1rem;
 }
 
+.btn-primary{
+  position: relative;
+}
+
+.noti-count{
+  display: inline-block;
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  height: 16px;
+  width: 16px;
+  text-align: center;
+  line-height: 16px;
+  border-radius: 50%;
+  background-color: red;
+  color: #fff;
+  font-size: 12px;
+}
+
 .la-shopping-cart{
   font-size: 24px;
 }
@@ -72,19 +98,20 @@ section{
 
 
 .product-box{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  position: relative;
   width: 80%;
-  padding-bottom: 20px;
+  height: 100%;
+  padding: 10px 10px 40px;
   border-radius: 10px;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: #DDDDDD;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 }
 
 .product-img{
   height: 160px;
   width: auto;
+  background-color: #fff;
+  border-radius: 6px;
   display: flex;
   justify-content: center;
 
@@ -100,15 +127,29 @@ section{
   padding: 10px;
 }
 
+.prod-name, .prod-price{
+  text-align: center;
+}
+
 .cart-btn{
-  display: block;
+  display: inline-block;
+  position: absolute;
+  left:50%;
+  bottom: 10px;
+  transform: translateX(-50%);
   background-color:crimson;
   color: #fff;
   border: none;
   border-radius: 6px;
   font-size: 14px;
   padding: 6px;
-  width: 150px;
+  width: 100px;
+  transition: all 0.3s ease;
+
+}
+
+.cart-btn:hover{
+  background-color: #f70737;
 }
  
 
@@ -140,12 +181,13 @@ section{
   gap: 10px;
 }
 
-.cart-detail-box .prod-name{
-  font-size: 14px;
+.prod-name{
+  font-size: 16px;
   font-weight: 600;
-  color: crimson;
   text-transform: uppercase;
 }
+
+
 
 .price-subtotal{
   display: flex;
@@ -153,9 +195,14 @@ section{
   padding-right: 20px;
 }
 
-.prod-price, .prod-subtotal{
+.prod-price, .prod-subtotal, .total-price{
   font-size: 14px;
   font-weight: 600;
+  position: relative;
+}
+
+.prod-price::before, .prod-subtotal::before, .total-price::before{
+  content: "Rs. ";
 }
 
 .qty-group{

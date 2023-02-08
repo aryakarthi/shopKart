@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+<style>
+
+</style>
+</head>
+<body>
+
+
+  <div class="container">
+    <form >
+      <input type="email" id="username" placeholder="Username"><br>
+      <input type="password" id="password" placeholder="Password"><br>
+      <button id="log-btn" type="button">Login</button>
+    </form>
+  </div>
+
+  <br>
+
+  <div class="container">
+    <form id="signup-form">
+      <input type="text" placeholder="First Name" id="first-name" class="input">
+      <input type="text" placeholder="Last Name" id="last-name" class="input"><br>
+
+      <input type="radio" id="male" name="gender" value="Male">
+      <label for="male">Male</label>&nbsp;&nbsp;
+      <input type="radio" id="female" name="gender" value="Female">
+      <label for="female">Female</label>&nbsp;&nbsp;
+      <input type="radio" id="others" name="gender" value="Others">
+      <label for="others">Others</label><br>
+
+      <input type="email" placeholder="Email" id="email-id" class="input"><br>
+      <input type="tel" placeholder="Mobile No" id="mob-no" class="input"><br>
+      <input type="password" placeholder="New Password" id="new-pwd" name="password" class="input"><br>
+      <input type="password" placeholder="Confirm Password" id="con-pwd" name="password" class="input"><br>
+
+      <button id="signup-btn" type="submit">Sign Up</button>
+    </form>
+  </div>
+
+
+  <script>
+    let userDetails = [
+      // {
+      //   name: "Arya",
+      //   email: "aryaperumal.m@gmail.com",
+      //   password: "aryafed05",
+      //   mobile:9876543210,
+      //   gender:"Male"
+      // },
+      // {
+      //   name: "Saranya",
+      //   email: "saranya@gmail.com",
+      //   password: "sarafed05",
+      //   mobile:9876501234,
+      //   gender:"Female"
+      // }
+    ];
+
+    let getUser = document.getElementById('username');
+    let getPwd = document.getElementById('password');
+    let logBtn = document.getElementById('log-btn');
+
+    logBtn.addEventListener('click',login);
+
+    function login(){
+      // console.log("Hi");
+      let findUser = userDetails.find(function(ele){
+        return ele.email == getUser.value;
+      });
+
+      // console.log(findUser);
+
+      if(findUser){
+        if(findUser.password === getPwd.value.trim()){
+          console.log("Welcome Back " +findUser.name);
+        }
+        else{
+          console.log("Invalid Password.!");
+        }
+      }
+      else{
+        console.log("Invalid Username or Password.!");
+      }
+
+    }
+
+
+
+    let signupForm = document.getElementById('signup-form');
+    let getFname = document.getElementById('first-name');
+    let getLname = document.getElementById('last-name');
+    let getEmail = document.getElementById('email-id');
+    let getMbl = document.getElementById('mob-no');
+    let getNewpwd = document.getElementById('new-pwd');
+    let getConpwd = document.getElementById('con-pwd');
+    let signupBtn = document.getElementById('signup-btn');
+
+    let getGender = document.getElementsByName('gender');
+    let gender_value;
+
+    let getInputs = document.getElementsByClassName("input");
+
+    let isValid = false;
+
+    signupForm.addEventListener('submit',(e) =>{
+    e.preventDefault();
+
+    if(getFname.value.trim()!=='' && getLname.value.trim()!=='' &&  getEmail.value.trim()!=='' && getNewpwd.value.trim()!==''
+    && getConpwd.value.trim() !=='' && getMbl.value.trim()!==''){
+      isValid =true;
+      error();
+    }
+    else{
+      isValid =false;
+      error();
+    }
+
+    let genderValue;
+    if(isValid){
+    
+    let count=0;
+    for(let i=0;i<getGender.length;i++){
+    if(getGender[i].checked==true){
+       count=1;
+      if(count>0){
+        isValid =true;
+        genderValue= getGender[i].value;
+      }
+    }
+    else{
+      if(count==0){
+        isValid =false;
+      }
+    }
+  } 
+}
+
+if(isValid){
+  let obj={};
+  obj.name = getFname.value+ " " +getLname.value;
+  obj.gender = genderValue;
+  obj.email= getEmail.value;
+  obj.password = getNewpwd.value;
+  obj.mobile = getMbl.value;
+  obj.userid= Math.random();
+
+  userDetails.push(obj);
+
+  console.log(userDetails);
+}  
+
+    // for(var i = 0; i < getGender.length; i++){
+    //   if(getGender[i].checked){
+    //     gender_value = getGender[i].value;
+    //   }
+    // }
+
+    // let newUser = {
+    //   name: getFname.value+" "+getLname.value,
+    //   email: getEmail.value,
+    //   password: getNewpwd.value,
+    //   mobile: getMbl.value,
+    //   gender: gender_value
+    // }
+      
+    // userDetails.push(newUser);
+    // console.log(userDetails);
+
+    // signUp();
+
+  });
+    
+
+    // signupBtn.addEventListener('click',signUp);
+
+    // function signUp(){
+
+    //   for(var i = 0; i < getGender.length; i++){
+    //     if(getGender[i].checked){
+    //       gender_value = getGender[i].value;
+    //     }
+    //   }
+
+    //   let newUser = {
+    //     name: getFname.value+" "+getLname.value,
+    //     email: getEmail.value,
+    //     password: getNewpwd.value,
+    //     mobile: getMbl.value,
+    //     gender: gender_value
+    //   }
+      
+    //   userDetails.push(newUser);
+    //   console.log(userDetails);
+    // }
+
+    function error(){
+      for(let i=0;i<getInputs.length;i++){
+        if(getInputs[i].value.trim()==''){
+          getInputs[i].style.outline="red solid 1px";
+        }else{
+          getInputs[i].style.outline="none";
+        }
+      }
+    }
+
+
+
+
+  </script>
+</body>
+</html>

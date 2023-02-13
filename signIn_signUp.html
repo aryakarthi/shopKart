@@ -124,22 +124,41 @@
     let genderValue;
     if(isValid){
     
-    let count=0;
-    for(let i=0;i<getGender.length;i++){
-    if(getGender[i].checked==true){
-       count=1;
-      if(count>0){
-        isValid =true;
-        genderValue= getGender[i].value;
-      }
+      let count=0;
+      for(let i=0;i<getGender.length;i++){
+        if(getGender[i].checked==true){
+          count=1;
+          if(count>0){
+            isValid =true;
+            genderValue= getGender[i].value;
+          }
+        }
+        else{
+          if(count==0){
+            isValid =false;
+          }
+        }
+      } 
     }
-    else{
-      if(count==0){
-        isValid =false;
-      }
+
+
+    let radios = document.getElementsByName("gender");
+    let isClicked = false;
+
+    let r = 0;
+    while (!isClicked && r < radios.length) {
+      if (radios[r].checked){
+        isClicked = true;
+        i++;
+      }        
     }
-  } 
-}
+    if (!isClicked){
+      alert("Must check some option!");
+      return isClicked;
+    }
+
+
+
 
 if(isValid){
   let obj={};
